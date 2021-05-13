@@ -1,0 +1,45 @@
+{
+    "name": "puntodev/payables",
+    "description": "",
+    "keywords": [
+        "puntodev",
+        "payables"
+    ],
+    "homepage": "https://github.com/puntodev/payables",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Mariano Goldman",
+            "email": "mariano.goldman@puntodev.com.ar",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/support": "^8.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Puntodev\\Payables\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
