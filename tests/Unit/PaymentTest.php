@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Puntodev\Payables\Models\Payment;
+use Tests\Product;
 use Tests\TestCase;
+use Tests\User;
 
 class PaymentTest extends TestCase {
 
@@ -63,6 +65,34 @@ class PaymentTest extends TestCase {
     function merchant_relationship_is_morph() {
         $payment = Payment::factory()->create();
         $this->assertInstanceOf(MorphTo::class, $payment->merchant());
+    }
+
+    /** @test */
+    function can_have_a_merchant() {
+        $payment = Payment::factory()
+            ->has(User::factory(), 'merchant')
+            ->create();
+        $this->assertInstanceOf(User::class, $payment->merchant);
+
+        /** @var User $user */
+        $user = $payment->refresh()->merchant;
+
+        $this->assertEquals(1, $user->payments->count());
+        $this->assertTrue($payment->is($user->payments->first()));
+    }
+
+    /** @test */
+    function can_have_a_product() {
+        $payment = Payment::factory()
+            ->has(Product::factory(), 'payable')
+            ->create();
+        $this->assertInstanceOf(Product::class, $payment->payable);
+
+        /** @var Product $product */
+        $product = $payment->refresh()->payable;
+
+        $this->assertEquals(1, $product->payments->count());
+        $this->assertTrue($payment->is($product->payments->first()));
     }
 
 }
