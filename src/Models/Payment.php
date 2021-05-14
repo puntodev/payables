@@ -4,7 +4,6 @@ namespace Puntodev\Payables\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Puntodev\Payables\Database\Factories\PaymentFactory;
 
@@ -25,7 +24,6 @@ class Payment extends Model
         'amount',
         'currency',
         'external_reference',
-        'provider_id',
         'notified',
         'raw',
     ];
@@ -33,7 +31,6 @@ class Payment extends Model
     protected $casts = [
         'raw' => 'array',
         'amount' => 'float',
-        'notified' => 'boolean',
     ];
 
     protected $dates = [
