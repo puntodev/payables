@@ -40,11 +40,6 @@ class Payment extends Model
         'paid_on',
     ];
 
-    public function provider(): BelongsTo
-    {
-        return $this->belongsTo(Provider::class);
-    }
-
     public function getAmountAttribute($amount)
     {
         return $amount / 100;
@@ -56,6 +51,11 @@ class Payment extends Model
     }
 
     public function payable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function merchant(): MorphTo
     {
         return $this->morphTo();
     }

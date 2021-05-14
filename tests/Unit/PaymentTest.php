@@ -28,12 +28,6 @@ class PaymentTest extends TestCase {
     }
 
     /** @test */
-    function payable_relationship_is_morph() {
-        $payment = Payment::factory()->create();
-        $this->assertInstanceOf(MorphTo::class, $payment->payable());
-    }
-
-    /** @test */
     function lookup_by_secondary_key() {
         Payment::factory()->create([
             'payment_method' => 'mercado_pago',
@@ -58,4 +52,17 @@ class PaymentTest extends TestCase {
             'payment_reference' => 'P123',
         ]);
     }
+
+    /** @test */
+    function payable_relationship_is_morph() {
+        $payment = Payment::factory()->create();
+        $this->assertInstanceOf(MorphTo::class, $payment->payable());
+    }
+
+    /** @test */
+    function merchant_relationship_is_morph() {
+        $payment = Payment::factory()->create();
+        $this->assertInstanceOf(MorphTo::class, $payment->merchant());
+    }
+
 }

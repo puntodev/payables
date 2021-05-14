@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Puntodev\Payables;
+namespace Puntodev\Payables\Concerns;
 
 
 use Carbon\Carbon;
