@@ -13,7 +13,7 @@ use Puntodev\Payables\Models\Payment;
  * Trait Payable
  * @property Collection $payments
  */
-trait Merchant
+trait OwnsPayments
 {
     public function payments(): MorphMany
     {
