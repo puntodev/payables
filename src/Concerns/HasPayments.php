@@ -14,7 +14,7 @@ use Puntodev\Payables\Models\Payment;
  * @property Collection $payments
  * @property float $amount
  */
-trait Payable
+trait HasPayments
 {
     public function payments(): MorphMany
     {
