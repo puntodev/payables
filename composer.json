@@ -48,7 +48,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Puntodev\\Payments\\PaymentsServiceProvider"
+                "Puntodev\\Payables\\PaymentsServiceProvider"
             ]
         }
     }
