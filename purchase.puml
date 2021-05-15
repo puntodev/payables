@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'autonumber
+
+User -> PaymentService: Checkout
+PaymentService -> Gateway: Create
+PaymentService <-- Gateway: Order Id & Payment Link
+PaymentService -> PaymentService: Store Order
+User <-- PaymentService: Redirect to payment gateway
+
+...
+
+User -> Gateway: Makes payment
+User <-- Gateway: Returns approved
+
+...
+
+User -> PaymentService: Returns to System
+User <-- PaymentService: Shows ok to user
+
+...
+
+Gateway -> PaymentService: Order paid WebHook
+PaymentService -> PaymentService: Create job to mark order as paid
+Gateway <-- PaymentService: Ok
+
+...
+
+PaymentService -> PaymentService: Mark order as paid
+
+@enduml
