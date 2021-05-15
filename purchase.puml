@@ -1,8 +1,6 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-'autonumber
-
 User -> PaymentService: Checkout
 PaymentService -> Gateway: Create
 PaymentService <-- Gateway: Order Id & Payment Link
