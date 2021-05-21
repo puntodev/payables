@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64869a9442601ef18a1af8f09cb3ef19",
+    "content-hash": "eae927d3dd994347460cd971a03f9c6f",
     "packages": [
         {
             "name": "brick/math",
@@ -1711,6 +1711,68 @@
                 "source": "https://github.com/php-fig/simple-cache/tree/master"
             },
             "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "puntodev/mercadopago",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/puntodev/mercadopago.git",
+                "reference": "4d36860f6acb59eb1f0542044d1037d436084dc4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/puntodev/mercadopago/zipball/4d36860f6acb59eb1f0542044d1037d436084dc4",
+                "reference": "4d36860f6acb59eb1f0542044d1037d436084dc4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Puntodev\\Payments\\MercadoPagoServiceProvider"
+                    ],
+                    "aliases": {
+                        "MercadoPago": "Puntodev\\Payments\\MercadoPagoFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Puntodev\\Payments\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mariano Goldman",
+                    "email": "mariano.goldman@puntodev.com.ar",
+                    "role": "Developer"
+                }
+            ],
+            "description": "MercadoPago API Client",
+            "homepage": "https://github.com/puntodev/mercadopago",
+            "keywords": [
+                "mercadopago",
+                "puntodev"
+            ],
+            "support": {
+                "source": "https://github.com/puntodev/mercadopago/tree/v1.1.1"
+            },
+            "time": "2021-04-30T20:14:17+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
