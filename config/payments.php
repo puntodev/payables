@@ -9,4 +9,6 @@ return [
             'mercado_pago' => MercadoPagoGateway::class,
         ],
 
+    'prefix' => 'payments',
+    'middleware' => 'web',
 ];
