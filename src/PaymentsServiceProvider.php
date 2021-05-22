@@ -2,7 +2,10 @@
 
 namespace Puntodev\Payables;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Puntodev\MercadoPago\MercadoPago;
+use Puntodev\Payables\Gateways\MercadoPagoGateway;
 
 class PaymentsServiceProvider extends ServiceProvider
 {
@@ -33,5 +36,10 @@ class PaymentsServiceProvider extends ServiceProvider
             return new Payments();
         });
         $this->app->alias(Payments::class, 'payments');
+
+        // Register the main class to use with the facade
+        $this->app->singleton(MercadoPagoGateway::class, function (Application $app) {
+            return new MercadoPagoGateway($app->make(MercadoPago::class));
+        });
     }
 }

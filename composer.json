@@ -20,7 +20,7 @@
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.0",
         "illuminate/support": "^8.0",
-        "puntodev/mercadopago": "^1.1"
+        "puntodev/mercadopago": "dev-master"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.4",

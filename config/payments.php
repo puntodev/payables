@@ -1,10 +1,12 @@
 <?php
 
+use Puntodev\Payables\Gateways\MercadoPagoGateway;
+
 return [
 
     'gateways' =>
         [
-//            'mercado_pago' => Gateway::class,
+            'mercado_pago' => MercadoPagoGateway::class,
         ],
 
 ];
