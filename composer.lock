@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79260a5a812921c99c52b1ec424c1fce",
+    "content-hash": "c91522648d51b4608e05db53ea1f678e",
     "packages": [
         {
             "name": "brick/math",
@@ -1718,12 +1718,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/puntodev/mercadopago.git",
-                "reference": "592c3dea4594a7633d769dec7321930f1ffef9da"
+                "reference": "1ce9ef186a03053b6a87314abf0a1d181d6cc612"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/puntodev/mercadopago/zipball/592c3dea4594a7633d769dec7321930f1ffef9da",
-                "reference": "592c3dea4594a7633d769dec7321930f1ffef9da",
+                "url": "https://api.github.com/repos/puntodev/mercadopago/zipball/1ce9ef186a03053b6a87314abf0a1d181d6cc612",
+                "reference": "1ce9ef186a03053b6a87314abf0a1d181d6cc612",
                 "shasum": ""
             },
             "require": {
@@ -1774,7 +1774,7 @@
             "support": {
                 "source": "https://github.com/puntodev/mercadopago/tree/master"
             },
-            "time": "2021-05-22T11:56:20+00:00"
+            "time": "2021-05-22T14:12:22+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

@@ -50,7 +50,7 @@ class MercadoPagoGateway implements Gateway
             ->withCredentials($merchant->clientId(), $merchant->clientSecret())
             ->createPaymentPreference($paymentPreference);
 
-        $sandbox = false;
+        $sandbox = $this->mercadoPago->usingSandbox();
 
         return new DefaultGatewayPaymentOrder(
             'mercado_pago',
