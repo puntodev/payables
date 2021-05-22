@@ -40,5 +40,6 @@ class MercadoPagoGateway implements Gateway
         $created = $this->mercadoPago
             ->withCredentials($merchant->clientId(), $merchant->clientSecret())
             ->createPaymentPreference($paymentPreference);
+        dump($created);
     }
 }
