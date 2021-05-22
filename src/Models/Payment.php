@@ -19,6 +19,7 @@ class Payment extends Model
         'payment_method',
         'payment_reference',
         'payer_email',
+        'merchant_id',
         'status',
         'paid_on',
         'amount',
