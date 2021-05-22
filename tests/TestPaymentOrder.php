@@ -58,11 +58,6 @@ class TestPaymentOrder implements PaymentOrder
         return "https://www.example.com/pending";
     }
 
-    public function notificationUrl(): string
-    {
-        return "https://www.example.com/notification";
-    }
-
     public function expiration(): DateTime|null
     {
         return Carbon::now();

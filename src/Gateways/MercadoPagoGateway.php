@@ -4,6 +4,7 @@
 namespace Puntodev\Payables\Gateways;
 
 
+use Illuminate\Support\Facades\URL;
 use Puntodev\MercadoPago\MercadoPago;
 use Puntodev\MercadoPago\PaymentPreferenceBuilder;
 use Puntodev\Payables\Contracts\Gateway;
@@ -42,7 +43,10 @@ class MercadoPagoGateway implements Gateway
             ->successBackUrl($order->successBackUrl())
             ->pendingBackUrl($order->pendingBackUrl())
             ->failureBackUrl($order->failureBackUrl())
-            ->notificationUrl($order->notificationUrl())
+            ->notificationUrl(URL::route('payments.incoming', [
+                'gateway' => 'mercado_pago',
+                'merchant' => $merchant->id(),
+            ]))
             ->binaryMode(true)
             ->make();
 

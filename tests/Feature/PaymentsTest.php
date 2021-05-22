@@ -4,6 +4,7 @@
 namespace Tests\Feature;
 
 
+use Illuminate\Support\Facades\URL;
 use Mockery\MockInterface;
 use Puntodev\MercadoPago\Facades\MercadoPago as MercadoPagoFacade;
 use Puntodev\MercadoPago\MercadoPagoApi;
@@ -74,7 +75,10 @@ class PaymentsTest extends TestCase
                     'email' => 'example@example.com',
                 ],
                 'payment_methods' => [],
-                'notification_url' => 'https://www.example.com/notification',
+                'notification_url' => URL::route('payments.incoming', [
+                    'gateway' => 'mercado_pago',
+                    'merchant' => 'merchant-id',
+                ]),
                 'external_reference' => 'b42f849e-90ad-4d7c-b9f6-e5bc2943b2b0',
                 'back_urls' =>
                     [

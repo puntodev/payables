@@ -26,7 +26,5 @@ interface PaymentOrder
 
     public function pendingBackUrl(): string;
 
-    public function notificationUrl(): string;
-
     public function expiration(): DateTime | null;
 }
