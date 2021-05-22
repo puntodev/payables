@@ -1,20 +1,16 @@
 <?php
 
 
-namespace Puntodev\Payables;
+namespace Puntodev\Payables\Contracts;
 
 
 use DateTime;
 
 interface PaymentOrder
 {
-    public function amount(): float;
-
-    public function currency(): string;
+    public function items(): array;
 
     public function externalReference(): string;
-
-    public function description(): string;
 
     public function email(): string;
 
