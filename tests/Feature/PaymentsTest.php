@@ -28,7 +28,6 @@ class PaymentsTest extends TestCase
     {
         $this->expectException(InvalidGateway::class);
 
-        /** @var PaymentOrder $po */
         $po = new TestPaymentOrder();
 
         $this->payments->checkout('wrong', $po);
@@ -44,14 +43,9 @@ class PaymentsTest extends TestCase
             ->once()
             ->andReturn($mock);
 
-        /** @var PaymentOrder $po */
-        $po = new TestPaymentOrder();
-        $merchant = new TestMerchant();
-
-        $this->payments->checkout('mercado_pago', $po, $merchant);
-
-        $mock->shouldHaveReceived('createPaymentPreference', [
-            [
+        $mock->shouldReceive('createPaymentPreference')
+            ->once()
+            ->with([
                 'items' => [
                     0 =>
                         [
@@ -78,7 +72,19 @@ class PaymentsTest extends TestCase
                 'auto_return' => 'all',
                 'binary_mode' => true,
                 'expires' => false,
-            ]
-        ]);
+            ])
+            ->andReturn([
+                'id' => 'some-id',
+                'init_point' => 'https://sandbox.mercadopago.com.ar/checkout/v1/redirect?pref_id=539968136-5a869e89-04eb-46cc-9949-373e195dc9e0',
+                'external_reference' => 'b42f849e-90ad-4d7c-b9f6-e5bc2943b2b0',
+            ]);
+
+        $po = new TestPaymentOrder();
+        $merchant = new TestMerchant();
+
+        $gatewayPaymentOrder = $this->payments->checkout('mercado_pago', $po, $merchant);
+        $this->assertEquals('some-id', $gatewayPaymentOrder->id());
+        $this->assertEquals('https://sandbox.mercadopago.com.ar/checkout/v1/redirect?pref_id=539968136-5a869e89-04eb-46cc-9949-373e195dc9e0', $gatewayPaymentOrder->redirectLink());
+        $this->assertEquals('b42f849e-90ad-4d7c-b9f6-e5bc2943b2b0', $gatewayPaymentOrder->externalId());
     }
 }

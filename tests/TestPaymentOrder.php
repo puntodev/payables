@@ -6,17 +6,15 @@ namespace Tests;
 
 use Carbon\Carbon;
 use DateTime;
-use Puntodev\Payables\PaymentOrder;
+use Puntodev\Payables\Contracts\PaymentOrder;
 
 class TestPaymentOrder implements PaymentOrder
 {
-    public function amount(): float {
-        return 10.0;
-    }
-
-    public function currency(): string
+    public function items(): array
     {
-        return "ARS";
+        return [
+            new TestPaymentOrderItem(),
+        ];
     }
 
     public function externalReference(): string
@@ -24,10 +22,6 @@ class TestPaymentOrder implements PaymentOrder
         return "b42f849e-90ad-4d7c-b9f6-e5bc2943b2b0";
     }
 
-    public function description(): string
-    {
-        return "some item";
-    }
 
     public function email(): string
     {

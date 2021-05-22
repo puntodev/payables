@@ -4,7 +4,7 @@
 namespace Tests;
 
 
-use Puntodev\Payables\Merchant;
+use Puntodev\Payables\Contracts\Merchant;
 
 class TestMerchant implements Merchant
 {

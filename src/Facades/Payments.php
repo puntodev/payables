@@ -3,8 +3,8 @@
 namespace Puntodev\Payables\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Puntodev\Payables\Merchant;
-use Puntodev\Payables\PaymentOrder;
+use Puntodev\Payables\Contracts\Merchant;
+use Puntodev\Payables\Contracts\PaymentOrder;
 use Puntodev\Payables\Payments as PaymentsFacade;
 
 /**
