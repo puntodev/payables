@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
+use Puntodev\MercadoPago\MercadoPagoServiceProvider;
 use Puntodev\Payables\PaymentsServiceProvider;
 
 abstract class TestCase extends Orchestra
@@ -18,12 +19,14 @@ abstract class TestCase extends Orchestra
         (new \CreatePaymentsTable)->up();
         (new \CreateUsersTable)->up();
         (new \CreateProductsTable)->up();
+
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            PaymentsServiceProvider::class
+            PaymentsServiceProvider::class,
+            MercadoPagoServiceProvider::class,
         ];
     }
 }

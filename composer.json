@@ -17,9 +17,10 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-json": "*",
         "guzzlehttp/guzzle": "^7.0",
         "illuminate/support": "^8.0",
-        "ext-json": "*"
+        "puntodev/mercadopago": "dev-master"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.4",
@@ -49,7 +50,10 @@
         "laravel": {
             "providers": [
                 "Puntodev\\Payables\\PaymentsServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Payments": "Puntodev\\Payments\\Facades\\Payments"
+            }
         }
     }
 }
