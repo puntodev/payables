@@ -1,10 +1,11 @@
 <?php
 
-namespace Puntodev\Payables;
+namespace Puntodev\Payables\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Puntodev\Payables\Payments as PaymentsFacade;
 
-class PaymentsFacade extends Facade
+class Payments extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +14,6 @@ class PaymentsFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return Payments::class;
+        return PaymentsFacade::class;
     }
 }

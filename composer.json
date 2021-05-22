@@ -50,7 +50,10 @@
         "laravel": {
             "providers": [
                 "Puntodev\\Payables\\PaymentsServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Payments": "Puntodev\\Payments\\Facades\\Payments"
+            }
         }
     }
 }
