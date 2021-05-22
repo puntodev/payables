@@ -59,4 +59,9 @@ class MercadoPagoGateway implements Gateway
             $created['external_reference']
         );
     }
+
+    public function processWebhook($merchant, $data)
+    {
+        // TODO: Implement processWebhook() method.
+    }
 }

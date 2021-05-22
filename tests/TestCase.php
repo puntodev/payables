@@ -19,7 +19,6 @@ abstract class TestCase extends Orchestra
         (new \CreatePaymentsTable)->up();
         (new \CreateUsersTable)->up();
         (new \CreateProductsTable)->up();
-
     }
 
     protected function getPackageProviders($app)
