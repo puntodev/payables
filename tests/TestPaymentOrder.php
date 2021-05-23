@@ -17,12 +17,6 @@ class TestPaymentOrder implements PaymentOrder
         ];
     }
 
-    public function externalReference(): string
-    {
-        return "b42f849e-90ad-4d7c-b9f6-e5bc2943b2b0";
-    }
-
-
     public function email(): string
     {
         return "example@example.com";

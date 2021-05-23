@@ -10,8 +10,6 @@ interface PaymentOrder
 {
     public function items(): array;
 
-    public function externalReference(): string;
-
     public function email(): string;
 
     public function firstName(): string;
