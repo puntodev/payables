@@ -29,14 +29,19 @@ class PaymentsWebhookControllerTest extends TestCase
         Bus::assertNotDispatched(StorePayment::class);
     }
 
-    /** @test */
-    public function it_can_receive_a_webhook_call()
+    /**
+     * @test
+     * @dataProvider useMorphMap
+     */
+    public function it_can_receive_a_webhook_call(bool $useMorphMap)
     {
         Bus::fake();
 
-//        Relation::morphMap([
-//            'user' => User::class,
-//        ]);
+        if ($useMorphMap) {
+            Relation::morphMap([
+                'user' => User::class,
+            ]);
+        }
 
         /** @var Merchant $merchant */
         $merchant = User::factory()->create();
@@ -61,35 +66,11 @@ class PaymentsWebhookControllerTest extends TestCase
         });
     }
 
-    /** @test */
-    public function it_can_receive_a_webhook_call_using_morph_map()
+    public function useMorphMap()
     {
-        Bus::fake();
-
-        Relation::morphMap([
-            'user' => User::class,
-        ]);
-
-        /** @var Merchant $merchant */
-        $merchant = User::factory()->create();
-
-        $this->post(URL::route('payments.incoming', [
-            'gateway' => 'mercado_pago',
-            'merchantType' => $merchant->type(),
-            'merchantId' => $merchant->identifier(),
-        ]), [
-            'hello' => 'world',
-        ])
-            ->assertOk();
-
-        Bus::assertDispatched(StorePayment::class, function (StorePayment $job) use ($merchant) {
-            $this->assertEquals('mercado_pago', $job->gateway);
-            $this->assertEquals($merchant->type(), $job->merchant->type());
-            $this->assertEquals($merchant->identifier(), $job->merchant->identifier());
-            $this->assertEquals([
-                'hello' => 'world',
-            ], $job->data);
-            return true;
-        });
+        return [
+            'not using morphMap' => [false],
+            'using morphMap' => [true],
+        ];
     }
 }
