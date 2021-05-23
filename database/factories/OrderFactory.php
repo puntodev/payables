@@ -19,10 +19,10 @@ class OrderFactory extends Factory
 
         return [
             'payment_method' => 'mercado_pago',
+            'uuid' => Uuid::uuid4(),
             'status' => 'paid',
             'currency' => 'ARS',
             'amount' => $this->faker->numberBetween(10, 30),
-            'external_reference' => Uuid::uuid4(),
             'payable_id' => $product->id,
             'payable_type' => $product->getMorphClass(),
             'merchant_id' => $merchant->id,
