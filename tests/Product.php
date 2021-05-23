@@ -5,11 +5,11 @@ namespace Tests;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Puntodev\Payables\Concerns\HasPayments;
+use Puntodev\Payables\Concerns\HasOrders;
 
 class Product extends Model
 {
-    use HasPayments;
+    use HasOrders;
     use HasFactory;
 
     protected $guarded = [];
