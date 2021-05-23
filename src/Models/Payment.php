@@ -5,7 +5,6 @@ namespace Puntodev\Payables\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Puntodev\Payables\Database\Factories\PaymentFactory;
 
 class Payment extends Model
@@ -48,11 +47,6 @@ class Payment extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
-    }
-
-    public function merchant(): MorphTo
-    {
-        return $this->morphTo();
     }
 
     protected static function newFactory()

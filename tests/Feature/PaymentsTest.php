@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use Mockery\MockInterface;
 use Puntodev\Payables\Exceptions\InvalidGateway;
+use Puntodev\Payables\Facades\Payments as PaymentsFacade;
 use Puntodev\Payables\Gateways\MercadoPagoGateway;
 use Puntodev\Payables\Payments;
 use Tests\Product;
@@ -31,6 +32,17 @@ class PaymentsTest extends TestCase
         $product = Product::factory()->create();
 
         $this->payments->checkout('wrong', $product, $user);
+    }
+
+    /** @test */
+    public function it_fails_if_unknown_gateway_using_facade()
+    {
+        $this->expectException(InvalidGateway::class);
+
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+
+        PaymentsFacade::checkout('wrong', $product, $user);
     }
 
     /** @test */
