@@ -22,6 +22,6 @@ class Payments
         /** @var Gateway $gateway */
         $gateway = app(config('payments.gateways')[$gateway]);
 
-        return $gateway->createOrder($payable, $merchant);
+        return $gateway->createOrder($merchant, $payable);
     }
 }

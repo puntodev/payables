@@ -22,7 +22,8 @@ class PaymentsTest extends TestCase
         $this->payments = new Payments();
     }
 
-    public function test_fails_if_unknown_gateway()
+    /** @test */
+    public function it_fails_if_unknown_gateway()
     {
         $this->expectException(InvalidGateway::class);
 
@@ -32,9 +33,7 @@ class PaymentsTest extends TestCase
         $this->payments->checkout('wrong', $product, $user);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_delegates_to_gateway()
     {
         /** @var User $user */
