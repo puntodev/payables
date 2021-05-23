@@ -24,7 +24,7 @@ trait HasPayments
     public function isPaid(): bool
     {
         $paid = $this->payments
-            ->filter(fn(Payment $payment) => $payment->status !== 'created')
+            ->filter(fn(Payment $payment) => $payment->status !== Payment::CREATED)
             ->reduce(fn(float $carry, Payment $item) => $carry + $item->amount * ($item->status === 'paid' ? 1 : -1), 0.0);
 
         return $this->amount <= $paid;
@@ -33,7 +33,7 @@ trait HasPayments
     public function isRefunded(): bool
     {
         $refundTransactions = $this->payments
-            ->filter(fn(Payment $payment) => $payment->status === 'refunded')
+            ->filter(fn(Payment $payment) => $payment->status === Payment::REFUNDED)
             ->count();
 
         return $refundTransactions > 0 && !$this->isPaid();
@@ -42,7 +42,7 @@ trait HasPayments
     public function paidOn(): ?Carbon
     {
         $lastPayment = $this->payments
-            ->filter(fn(Payment $payment) => $payment->status === 'paid')
+            ->filter(fn(Payment $payment) => $payment->status === Payment::PAID)
             ->sortBy('paid_on')
             ->last();
 
