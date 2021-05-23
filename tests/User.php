@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Puntodev\Payables\Concerns\OwnsPayments;
+use Puntodev\Payables\Contracts\Merchant;
 
-class User extends Model implements AuthorizableContract, AuthenticatableContract
+class User extends Model implements AuthorizableContract, AuthenticatableContract, Merchant
 {
     use OwnsPayments;
     use HasFactory;
@@ -24,5 +25,30 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
     protected static function newFactory()
     {
         return UserFactory::new();
+    }
+
+    public function clientId(): string
+    {
+        return "some-client-id";
+    }
+
+    public function clientSecret(): string
+    {
+        return "some-client-secret";
+    }
+
+    public function identifier(): string
+    {
+        return $this->getMorphIdentifier();
+    }
+
+    public function type(): string
+    {
+        return $this->getMorphType();
+    }
+
+    public function merchantId(): string
+    {
+        return $this->getMorphFullId();
     }
 }
