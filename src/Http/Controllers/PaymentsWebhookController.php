@@ -4,6 +4,7 @@
 namespace Puntodev\Payables\Http\Controllers;
 
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Puntodev\Payables\Contracts\Merchant;
@@ -11,19 +12,21 @@ use Puntodev\Payables\Jobs\StorePayment;
 
 class PaymentsWebhookController extends Controller
 {
-    public function incoming(Request $request, string $gateway, string $merchantId)
+    public function incoming(Request $request, string $gateway, string $merchantType, string $merchantId)
     {
         Log::debug('incoming', ['gateway' => $gateway, 'merchant' => $merchantId]);
 
-        $merchant = $this->findByMerchantId($merchantId);
+        $merchant = $this->findMerchant($merchantType, $merchantId);
 
         StorePayment::dispatch($gateway, $merchant, $request->toArray());
     }
 
-    public function findByMerchantId(string $merchantId): Merchant
+    public function findMerchant(string $merchantType, string $merchantId): Merchant
     {
-        // TODO See if there's a better way
-        $explode = explode('-', $merchantId);
-        return $explode[0]::find($explode[1]);
+        if (class_exists($merchantType)) {
+            return $merchantType::find($merchantId);
+        }
+
+        return [Relation::getMorphedModel($merchantType), 'find']($merchantId);
     }
 }

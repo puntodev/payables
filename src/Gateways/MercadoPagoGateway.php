@@ -160,7 +160,8 @@ class MercadoPagoGateway implements Gateway
             ->failureBackUrl($order->failureBackUrl())
             ->notificationUrl(URL::route('payments.incoming', [
                 'gateway' => 'mercado_pago',
-                'merchant' => $merchant->identifier(),
+                'merchantType' => $merchant->type(),
+                'merchantId' => $merchant->identifier(),
             ]))
             ->binaryMode(true)
             ->make();

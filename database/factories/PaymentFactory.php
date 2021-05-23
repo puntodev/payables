@@ -19,9 +19,7 @@ class PaymentFactory extends Factory
             'paid_on' => $this->faker->dateTimeBetween('now', '1 week'),
             'currency' => 'ARS',
             'amount' => $this->faker->numberBetween(10, 30),
-            'raw' => function (array $payment) {
-                return [];
-            },
+            'raw' => fn() => [],
         ];
     }
 }

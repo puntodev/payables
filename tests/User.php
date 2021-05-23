@@ -46,9 +46,4 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
     {
         return $this->getMorphClass();
     }
-
-    public function merchantId(): string
-    {
-        return $this->type() . '-' . $this->identifier();
-    }
 }
