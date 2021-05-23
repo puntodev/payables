@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('payment_method');
             $table->nullableMorphs('payable');
-            $table->nullableMorphs('merchant');
+            $table->morphs('merchant');
             $table->string('status');
             $table->string('currency');
             $table->integer('amount');
