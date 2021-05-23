@@ -48,7 +48,7 @@ class MercadoPagoGateway implements Gateway
         );
     }
 
-    public function processWebhook(Merchant $merchant, array $data)
+    public function processWebhook(Merchant $merchant, array $data): void
     {
         $orderId = Arr::get($data, 'data.id');
 

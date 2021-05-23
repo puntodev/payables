@@ -8,5 +8,5 @@ interface Gateway
 {
     public function createOrder(Merchant $merchant, Payable $payable): GatewayPaymentOrder;
 
-    public function processWebhook(Merchant $merchant, array $data);
+    public function processWebhook(Merchant $merchant, array $data): void;
 }
