@@ -5,6 +5,7 @@ namespace Puntodev\Payables\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Puntodev\Payables\Database\Factories\OrderFactory;
 
 class Order extends Model
 {
