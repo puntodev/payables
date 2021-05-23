@@ -2,9 +2,9 @@
 'https://plantuml.com/sequence-diagram
 
 User -> PaymentService: Checkout
-PaymentService -> Gateway: Create
-PaymentService <-- Gateway: Order Id & Payment Link
-PaymentService -> PaymentService: Store Order
+PaymentService -> PaymentService: Created local Order
+PaymentService -> Gateway: Create order
+PaymentService <-- Gateway: order details including payment link
 User <-- PaymentService: Redirect to payment gateway
 
 ...
@@ -19,8 +19,8 @@ User <-- PaymentService: Shows ok to user
 
 ...
 
-Gateway -> PaymentService: Order paid WebHook
-PaymentService -> PaymentService: Create job to mark order as paid
+Gateway -> PaymentService: New order paid WebHook
+PaymentService -> PaymentService: Create job to create the order
 Gateway <-- PaymentService: Ok
 
 ...

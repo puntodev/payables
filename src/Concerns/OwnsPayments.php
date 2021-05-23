@@ -4,19 +4,18 @@
 namespace Puntodev\Payables\Concerns;
 
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
-use Puntodev\Payables\Models\Payment;
+use Puntodev\Payables\Models\Order;
 
 /**
  * Trait Payable
- * @property Collection $payments
+ * @property Collection $orders
  */
 trait OwnsPayments
 {
-    public function payments(): MorphMany
+    public function orders(): MorphMany
     {
-        return $this->morphMany(Payment::class, 'merchant');
+        return $this->morphMany(Order::class, 'merchant');
     }
 }

@@ -6,23 +6,23 @@ namespace Tests;
 
 use Puntodev\Payables\Contracts\PaymentOrderItem;
 
-class TestPaymentOrderItem implements PaymentOrderItem
+class ProductPaymentOrderItem implements PaymentOrderItem
 {
     /**
      * TestPaymentOrderItem constructor.
      */
-    public function __construct()
+    public function __construct(private Product $product)
     {
     }
 
     public function amount(): float
     {
-        return 10.0;
+        return $this->product->amount;
     }
 
     public function quantity(): int
     {
-        return 1;
+        return 2;
     }
 
     public function currency(): string
@@ -32,6 +32,6 @@ class TestPaymentOrderItem implements PaymentOrderItem
 
     public function description(): string
     {
-        return "some item";
+        return $this->product->name;
     }
 }

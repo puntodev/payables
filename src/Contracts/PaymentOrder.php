@@ -10,8 +10,6 @@ interface PaymentOrder
 {
     public function items(): array;
 
-    public function externalReference(): string;
-
     public function email(): string;
 
     public function firstName(): string;
@@ -25,8 +23,6 @@ interface PaymentOrder
     public function failureBackUrl(): string;
 
     public function pendingBackUrl(): string;
-
-    public function notificationUrl(): string;
 
     public function expiration(): DateTime | null;
 }

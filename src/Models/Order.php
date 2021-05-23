@@ -4,10 +4,11 @@ namespace Puntodev\Payables\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Puntodev\Payables\Database\Factories\PaymentFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Puntodev\Payables\Database\Factories\OrderFactory;
 
-class Payment extends Model
+class Order extends Model
 {
     use HasFactory;
 
@@ -16,17 +17,16 @@ class Payment extends Model
     public const REFUNDED = 'refunded';
 
     protected $fillable = [
-        'payment_reference',
-        'order_id',
+        'payment_method',
         'status',
         'paid_on',
         'amount',
         'currency',
-        'raw',
+        'external_reference',
+        'notified',
     ];
 
     protected $casts = [
-        'raw' => 'array',
         'amount' => 'float',
     ];
 
@@ -44,13 +44,23 @@ class Payment extends Model
         $this->attributes['amount'] = $amount * 100;
     }
 
-    public function order(): BelongsTo
+    public function payable(): MorphTo
     {
-        return $this->belongsTo(Order::class);
+        return $this->morphTo();
+    }
+
+    public function merchant(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
     protected static function newFactory()
     {
-        return PaymentFactory::new();
+        return OrderFactory::new();
     }
 }
