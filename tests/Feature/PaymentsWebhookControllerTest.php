@@ -6,8 +6,10 @@ namespace Tests\Feature;
 
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\URL;
+use Puntodev\Payables\Contracts\Merchant;
 use Puntodev\Payables\Jobs\StorePayment;
 use Tests\TestCase;
+use Tests\User;
 
 class PaymentsWebhookControllerTest extends TestCase
 {
@@ -30,17 +32,21 @@ class PaymentsWebhookControllerTest extends TestCase
     {
         Bus::fake();
 
+        /** @var Merchant $merchant */
+        $merchant = User::factory()->create();
+
         $this->post(URL::route('payments.incoming', [
             'gateway' => 'mercado_pago',
-            'merchant' => '1',
+            'merchant' => $merchant->merchantId(),
         ]), [
             'hello' => 'world',
         ])
             ->assertOk();
 
-        Bus::assertDispatched(StorePayment::class, function (StorePayment $job) {
+        Bus::assertDispatched(StorePayment::class, function (StorePayment $job) use ($merchant) {
             $this->assertEquals('mercado_pago', $job->gateway);
-            $this->assertEquals('1', $job->merchant);
+            $this->assertEquals($merchant->merchantId(), $job->merchant->merchantId());
+            $this->assertEquals($merchant->identifier(), $job->merchant->identifier());
             $this->assertEquals([
                 'hello' => 'world',
             ], $job->data);

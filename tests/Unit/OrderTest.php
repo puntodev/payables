@@ -4,9 +4,11 @@
 namespace Tests\Unit;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Puntodev\Payables\Models\Order;
+use Puntodev\Payables\Models\Payment;
 use Tests\Product;
 use Tests\TestCase;
 use Tests\User;
@@ -58,7 +60,7 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    function can_have_a_product()
+    function can_have_a_payable()
     {
         $payment = Order::factory()
             ->has(Product::factory(), 'payable')
@@ -75,73 +77,80 @@ class OrderTest extends TestCase
     /** @test */
     function is_paid()
     {
-        $payment = Order::factory()
+        $order = Order::factory()
             ->has(Product::factory(['amount' => '100']), 'payable')
+            ->has(Payment::factory(['amount' => '100']), 'payments')
             ->create(['amount' => 100]);
 
-        $this->assertTrue($payment->payable->isPaid());
+        $this->assertTrue($order->payable->isPaid());
     }
 
     /** @test */
     function is_not_paid()
     {
-        $payment = Order::factory()
-            ->has(Product::factory(['amount' => '100']), 'payable')
+        $order = Order::factory()
+            /** @test */
+            ->has(Payment::factory(['amount' => '50']), 'payments')
             ->create(['amount' => 50]);
 
-        $this->assertFalse($payment->payable->isPaid());
+        $this->assertFalse($order->payable->isPaid());
     }
 
     /** @test */
     function is_refunded()
     {
-        $product = Product::factory()
-            ->has(Order::factory(['amount' => 100, 'status' => Order::PAID]))
-            ->has(Order::factory(['amount' => 100, 'status' => Order::REFUNDED]))
-            ->create(['amount' => '100']);
+        /** @var Order $order */
+        $order = Order::factory()
+            ->has(Product::factory(['amount' => '100']), 'payable')
+            ->has(Payment::factory(['amount' => '100', 'status' => Payment::PAID]), 'payments')
+            ->has(Payment::factory(['amount' => '100', 'status' => Payment::REFUNDED]), 'payments')
+            ->create(['amount' => 100]);
 
-        $this->assertTrue($product->isRefunded());
-        $this->assertFalse($product->isPaid());
-
+        $this->assertTrue($order->payable->isRefunded());
+        $this->assertFalse($order->payable->isPaid());
     }
 
     /** @test */
     function is_refunded_but_then_paid_again()
     {
-        $product = Product::factory()
-            ->has(Order::factory(['amount' => 100, 'status' => Order::PAID]))
-            ->has(Order::factory(['amount' => 100, 'status' => Order::REFUNDED]))
-            ->has(Order::factory(['amount' => 100, 'status' => Order::PAID]))
+        /** @var Order $order */
+        $order = Order::factory()
+            ->has(Product::factory(['amount' => '100']), 'payable')
+            ->has(Payment::factory(['amount' => '100', 'status' => Payment::PAID]), 'payments')
+            ->has(Payment::factory(['amount' => '100', 'status' => Payment::REFUNDED]), 'payments')
+            ->has(Payment::factory(['amount' => '100', 'status' => Payment::PAID]), 'payments')
+            ->create(['amount' => 100]);
+
+        $this->assertFalse($order->payable->isRefunded());
+        $this->assertTrue($order->payable->isPaid());
+    }
+
+    /** @test */
+    function is_paid_on()
+    {
+        $paidOn = Carbon::yesterday();
+        $order = Order::factory()
+            ->has(Product::factory(['amount' => '100']), 'payable')
+            ->has(Payment::factory(['amount' => 100, 'status' => Payment::PAID, 'paid_on' => $paidOn]))
             ->create(['amount' => '100']);
 
-        $this->assertFalse($product->isRefunded());
-        $this->assertTrue($product->isPaid());
+        $this->assertTrue($order->payable->isPaid());
+        $this->assertEquals($paidOn, $order->payable->paidOn());
     }
-//
-//    /** @test */
-//    function is_paid_on()
-//    {
-//        $paidOn = Carbon::yesterday();
-//        $product = Product::factory()
-//            ->has(Order::factory(['amount' => 100, 'status' => Order::PAID, 'paid_on' => $paidOn]))
-//            ->create(['amount' => '100']);
-//
-//        $this->assertTrue($product->isPaid());
-//        $this->assertEquals($paidOn, $product->paidOn());
-//    }
-//
-//    /** @test */
-//    function is_paid_on_after_refund()
-//    {
-//        $today = Carbon::today();
-//        $yesterday = Carbon::yesterday();
-//        $product = Product::factory()
-//            ->has(Order::factory(['amount' => 100, 'status' => Order::PAID, 'paid_on' => $today]))
-//            ->has(Order::factory(['amount' => 100, 'status' => Order::PAID, 'paid_on' => $yesterday]))
-//            ->has(Order::factory(['amount' => 100, 'status' => Order::REFUNDED, 'paid_on' => $yesterday]))
-//            ->create(['amount' => '100']);
-//
-//        $this->assertTrue($product->isPaid());
-//        $this->assertEquals($today, $product->paidOn());
-//    }
+
+    /** @test */
+    function is_paid_on_after_refund()
+    {
+        $today = Carbon::today();
+        $yesterday = Carbon::yesterday();
+        $order = Order::factory()
+            ->has(Product::factory(['amount' => '100']), 'payable')
+            ->has(Payment::factory(['amount' => 100, 'status' => Payment::PAID, 'paid_on' => $today]))
+            ->has(Payment::factory(['amount' => 100, 'status' => Payment::PAID, 'paid_on' => $yesterday]))
+            ->has(Payment::factory(['amount' => 100, 'status' => Payment::REFUNDED, 'paid_on' => $yesterday]))
+            ->create(['amount' => '100']);
+
+        $this->assertTrue($order->payable->isPaid());
+        $this->assertEquals($today, $order->payable->paidOn());
+    }
 }

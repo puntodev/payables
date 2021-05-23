@@ -12,6 +12,8 @@ interface Merchant
 
     public function merchantId(): string;
 
+//    public static function findByMerchantId(string $merchantId): Merchant;
+
     public function clientId(): string;
 
     public function clientSecret(): string;

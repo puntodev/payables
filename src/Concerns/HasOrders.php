@@ -4,6 +4,7 @@
 namespace Puntodev\Payables\Concerns;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Puntodev\Payables\Models\Order;
@@ -24,8 +25,9 @@ trait HasOrders
     public function isPaid(): bool
     {
         $paid = $this->orders
-            ->filter(fn(Order $order) => $order->status !== Payment::CREATED)
-            ->reduce(fn(float $carry, Order $order) => $carry + $order->amount * ($order->status === 'paid' ? 1 : -1), 0.0);
+            ->flatMap(fn(Order $order) => $order->payments)
+            ->filter(fn(Payment $payment) => $payment->status !== Payment::CREATED)
+            ->reduce(fn(float $carry, Payment $payment) => $carry + $payment->amount * ($payment->status === 'paid' ? 1 : -1), 0.0);
 
         return $this->amount <= $paid;
     }
@@ -33,19 +35,21 @@ trait HasOrders
     public function isRefunded(): bool
     {
         $refundTransactions = $this->orders
-            ->filter(fn(Order $order) => $order->status === Payment::REFUNDED)
+            ->flatMap(fn(Order $order) => $order->payments)
+            ->filter(fn(Payment $payment) => $payment->status === Payment::REFUNDED)
             ->count();
 
         return $refundTransactions > 0 && !$this->isPaid();
     }
-//
-//    public function paidOn(): ?Carbon
-//    {
-//        $lastPayment = $this->orders
-//            ->filter(fn(Order $order) => $order->status === Payment::PAID)
-//            ->sortBy('paid_on')
-//            ->last();
-//
-//        return $this->isPaid() ? $lastPayment->paid_on : null;
-//    }
+
+    public function paidOn(): ?Carbon
+    {
+        $lastPayment = $this->orders
+            ->flatMap(fn(Order $order) => $order->payments)
+            ->filter(fn(Payment $payment) => $payment->status === Payment::PAID)
+            ->sortBy('paid_on')
+            ->last();
+
+        return $this->isPaid() ? $lastPayment->paid_on : null;
+    }
 }

@@ -39,16 +39,16 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
 
     public function identifier(): string
     {
-        return $this->getMorphIdentifier();
+        return $this->id;
     }
 
     public function type(): string
     {
-        return $this->getMorphType();
+        return $this->getMorphClass();
     }
 
     public function merchantId(): string
     {
-        return $this->getMorphFullId();
+        return $this->type() . '-' . $this->identifier();
     }
 }
