@@ -4,6 +4,7 @@ namespace Puntodev\Payables\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Puntodev\Payables\Database\Factories\PaymentFactory;
 
@@ -16,16 +17,12 @@ class Payment extends Model
     public const REFUNDED = 'refunded';
 
     protected $fillable = [
-        'payment_method',
         'payment_reference',
-        'payer_email',
-        'merchant_id',
+        'order_id',
         'status',
         'paid_on',
         'amount',
         'currency',
-        'external_reference',
-        'notified',
         'raw',
     ];
 
@@ -48,9 +45,9 @@ class Payment extends Model
         $this->attributes['amount'] = $amount * 100;
     }
 
-    public function payable(): MorphTo
+    public function order(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->belongsTo(Order::class);
     }
 
     public function merchant(): MorphTo

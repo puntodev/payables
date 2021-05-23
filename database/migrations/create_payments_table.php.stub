@@ -16,21 +16,17 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_method');
+            $table->foreignId('order_id')
+                ->constrained('orders');
             $table->string('payment_reference');
-            $table->nullableMorphs('payable');
-            $table->nullableMorphs('merchant');
-            $table->string('payer_email')->nullable();
             $table->string('status');
             $table->datetime('paid_on');
             $table->string('currency');
             $table->integer('amount');
-            $table->string('external_reference')->nullable();
             $table->json('raw');
             $table->timestamps();
 
-            $table->unique(['payment_method', 'payment_reference']);
-            $table->index('payer_email');
+            $table->unique(['order_id', 'payment_reference']);
         });
     }
 
