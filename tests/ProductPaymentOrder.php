@@ -8,12 +8,19 @@ use Carbon\Carbon;
 use DateTime;
 use Puntodev\Payables\Contracts\PaymentOrder;
 
-class TestPaymentOrder implements PaymentOrder
+class ProductPaymentOrder implements PaymentOrder
 {
+    /**
+     * ProductPaymentOrder constructor.
+     */
+    public function __construct(private Product $product)
+    {
+    }
+
     public function items(): array
     {
         return [
-            new TestPaymentOrderItem(),
+            new ProductPaymentOrderItem($this->product),
         ];
     }
 

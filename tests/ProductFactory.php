@@ -16,7 +16,7 @@ class ProductFactory extends TestbenchUserFactory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->title,
             'description' => $this->faker->sentence,
             'amount' => 100,
         ];
