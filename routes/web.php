@@ -8,3 +8,9 @@ Route::post('/{gateway}/{merchantType}/{merchantId}', [PaymentsWebhookController
     ->where([
         'gateway' => implode('|', array_keys(config('payments.gateways'))),
     ]);
+
+Route::post('/{gateway}', [PaymentsWebhookController::class, 'incomingDefault'])
+    ->name('payments.incoming.default')
+    ->where([
+        'gateway' => implode('|', array_keys(config('payments.gateways'))),
+    ]);

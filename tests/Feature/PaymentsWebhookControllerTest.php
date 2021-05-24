@@ -66,6 +66,32 @@ class PaymentsWebhookControllerTest extends TestCase
         });
     }
 
+
+    /**
+     * @test
+     * @dataProvider useMorphMap
+     */
+    public function it_can_receive_a_webhook_call_for_default_merchant(bool $useMorphMap)
+    {
+        $this->withoutExceptionHandling();
+        Bus::fake();
+
+        $this->post(URL::route('payments.incoming.default', [
+            'gateway' => 'mercado_pago',
+        ]), [
+            'hello' => 'world',
+        ])
+            ->assertOk();
+
+        Bus::assertDispatched(StorePayment::class, function (StorePayment $job) {
+            $this->assertEquals('mercado_pago', $job->gateway);
+            $this->assertEquals([
+                'hello' => 'world',
+            ], $job->data);
+            return true;
+        });
+    }
+
     public function useMorphMap()
     {
         return [

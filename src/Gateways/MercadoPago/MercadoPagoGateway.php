@@ -152,7 +152,7 @@ class MercadoPagoGateway implements Gateway
                 ->make();
         }
 
-        $notificationUrl = !empty($merchant->type()) && !empty($merchant->identifier()) ?
+        $notificationUrl = $merchant instanceof Model ?
             URL::route('payments.incoming', [
                 'gateway' => 'mercado_pago',
                 'merchantType' => $merchant->type(),

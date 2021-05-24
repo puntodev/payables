@@ -4,10 +4,12 @@
 namespace Tests\Unit;
 
 
+use Illuminate\Support\Facades\Config;
 use Mockery\MockInterface;
 use Puntodev\MercadoPago\MercadoPago;
 use Puntodev\MercadoPago\MercadoPagoApi;
 use Puntodev\Payables\Contracts\Payable;
+use Puntodev\Payables\Gateways\MercadoPago\DefaultMercadoPagoMerchant;
 use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 use Puntodev\Payables\Models\Order;
 use RuntimeException;
@@ -76,6 +78,50 @@ class MercadoPagoGatewayTest extends TestCase
             'payment_method' => 'mercado_pago',
             'merchant_type' => $user->getMorphClass(),
             'merchant_id' => $user->identifier(),
+            'payable_type' => $product->getMorphClass(),
+            'payable_id' => $product->id,
+            'uuid' => $gatewayPaymentOrder->externalId(),
+            'status' => Order::CREATED,
+            'currency' => 'ARS',
+            'amount' => 20000,
+        ]);
+    }
+
+    /**
+     * @test
+     * @dataProvider sandbox
+     */
+    public function it_can_create_an_order_with_default_merchant(bool $usingSandbox, string $expectedRedirectUrl)
+    {
+        $user = new DefaultMercadoPagoMerchant();
+        $product = Product::factory()->create();
+
+        Config::set('mercadopago.client_id', 'some-client-id');
+        Config::set('mercadopago.client_secret', 'some-client-secret');
+
+        $this->mockApi->shouldReceive('createPaymentPreference')
+            ->once()
+            ->andReturn([
+                'id' => 'some-id',
+                'sandbox_init_point' => 'https://sandbox.mercadopago.com.ar/checkout/v1/redirect?pref_id=539968136-5a869e89-04eb-46cc-9949-373e195dc9e0',
+                'init_point' => 'https://mercadopago.com.ar/checkout/v1/redirect?pref_id=539968136-5a869e89-04eb-46cc-9949-373e195dc9e0',
+                'external_reference' => 'b42f849e-90ad-4d7c-b9f6-e5bc2943b2b0',
+            ]);
+        $this->mock->shouldReceive('usingSandbox')
+            ->once()
+            ->andReturn($usingSandbox);
+
+        $gatewayPaymentOrder = $this->gateway->createOrder($user, $product);
+
+        $this->assertEquals('mercado_pago', $gatewayPaymentOrder->gateway());
+        $this->assertEquals('some-id', $gatewayPaymentOrder->id());
+        $this->assertEquals($expectedRedirectUrl, $gatewayPaymentOrder->redirectLink());
+        $this->assertNotNull($gatewayPaymentOrder->externalId());
+
+        $this->assertDatabaseHas('orders', [
+            'payment_method' => 'mercado_pago',
+            'merchant_type' => null,
+            'merchant_id' => null,
             'payable_type' => $product->getMorphClass(),
             'payable_id' => $product->id,
             'uuid' => $gatewayPaymentOrder->externalId(),
@@ -414,5 +460,11 @@ class MercadoPagoGatewayTest extends TestCase
             ],
         ];
         $this->gateway->processWebhook($user, $data);
+    }
+
+    /** @test */
+    public function it_supports_default_merchant()
+    {
+        $this->assertInstanceOf(DefaultMercadoPagoMerchant::class, $this->gateway->defaultMerchant(),);
     }
 }
