@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Puntodev\Payables\Gateways;
+namespace Puntodev\Payables\Gateways\MercadoPago;
 
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -128,7 +129,9 @@ class MercadoPagoGateway implements Gateway
         $order->amount = collect($paymentOrder->items())
             ->reduce(fn($carry, $item) => $carry + $item->quantity() * $item->amount(), 0.0);
         $order->currency = $paymentOrder->items()[0]->currency();
-        $order->merchant()->associate($merchant);
+        if ($merchant instanceof Model) {
+            $order->merchant()->associate($merchant);
+        }
         $order->payable()->associate($payable);
         $order->save();
 
@@ -149,6 +152,16 @@ class MercadoPagoGateway implements Gateway
                 ->make();
         }
 
+        $notificationUrl = $merchant instanceof Model ?
+            URL::route('payments.incoming', [
+                'gateway' => 'mercado_pago',
+                'merchantType' => $merchant->getMorphClass(),
+                'merchantId' => $merchant->id,
+            ]) :
+            URL::route('payments.incoming.default', [
+                'gateway' => 'mercado_pago',
+            ]);
+
         return $builder
             ->externalId($externalReference)
             ->payerFirstName($order->firstName())
@@ -158,12 +171,13 @@ class MercadoPagoGateway implements Gateway
             ->successBackUrl($order->successBackUrl())
             ->pendingBackUrl($order->pendingBackUrl())
             ->failureBackUrl($order->failureBackUrl())
-            ->notificationUrl(URL::route('payments.incoming', [
-                'gateway' => 'mercado_pago',
-                'merchantType' => $merchant->type(),
-                'merchantId' => $merchant->identifier(),
-            ]))
+            ->notificationUrl($notificationUrl)
             ->binaryMode(true)
             ->make();
+    }
+
+    public function defaultMerchant(): Merchant
+    {
+        return new DefaultMercadoPagoMerchant();
     }
 }

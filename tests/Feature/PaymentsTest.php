@@ -7,7 +7,7 @@ namespace Tests\Feature;
 use Mockery\MockInterface;
 use Puntodev\Payables\Exceptions\InvalidGateway;
 use Puntodev\Payables\Facades\Payments as PaymentsFacade;
-use Puntodev\Payables\Gateways\MercadoPagoGateway;
+use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 use Puntodev\Payables\Payments;
 use Tests\Product;
 use Tests\TestCase;
@@ -56,6 +56,19 @@ class PaymentsTest extends TestCase
         $spy = $this->spy(MercadoPagoGateway::class);
 
         $this->payments->checkout('mercado_pago', $product, $user);
+
+        $spy->shouldHaveReceived('createOrder');
+    }
+
+    /** @test */
+    public function it_delegates_to_gateway_with_default_merchant()
+    {
+        $product = Product::factory()->create();
+
+        /** @var MercadoPagoGateway|MockInterface $mock */
+        $spy = $this->spy(MercadoPagoGateway::class);
+
+        $this->payments->checkoutForDefaultMerchant('mercado_pago', $product);
 
         $spy->shouldHaveReceived('createOrder');
     }

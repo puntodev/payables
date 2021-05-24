@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 
 use Mockery\MockInterface;
-use Puntodev\Payables\Gateways\MercadoPagoGateway;
+use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 use Puntodev\Payables\Jobs\StorePayment;
 use Tests\TestCase;
 use Tests\User;

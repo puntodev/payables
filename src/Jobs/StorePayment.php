@@ -25,6 +25,6 @@ class StorePayment implements ShouldQueue
         /** @var Gateway $gateway */
         $gateway = app(config('payments.gateways')[$this->gateway]);
 
-        return $gateway->processWebhook($this->merchant, $this->data);
+        $gateway->processWebhook($this->merchant, $this->data);
     }
 }

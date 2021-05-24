@@ -15,13 +15,34 @@ class Payments
      */
     public function checkout(string $gateway, Payable $payable, Merchant $merchant): GatewayPaymentOrder
     {
-        if (!array_key_exists($gateway, config('payments.gateways'))) {
-            throw new InvalidGateway($gateway);
-        }
+        $gateway = $this->getGateway($gateway);
+
+        return $gateway->createOrder($merchant, $payable);
+    }
+
+    /**
+     * @throws InvalidGateway if the provided gateway is not configured
+     */
+    public function checkoutForDefaultMerchant(string $gateway, Payable $payable): GatewayPaymentOrder
+    {
+        $gateway = $this->getGateway($gateway);
+
+        return $gateway->createOrder($gateway->defaultMerchant(), $payable);
+    }
+
+    private function getGateway(string $gateway): Gateway
+    {
+        $this->checkValidGateway($gateway);
 
         /** @var Gateway $gateway */
         $gateway = app(config('payments.gateways')[$gateway]);
+        return $gateway;
+    }
 
-        return $gateway->createOrder($merchant, $payable);
+    private function checkValidGateway(string $gateway): void
+    {
+        if (!array_key_exists($gateway, config('payments.gateways'))) {
+            throw new InvalidGateway($gateway);
+        }
     }
 }
