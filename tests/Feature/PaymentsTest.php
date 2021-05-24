@@ -59,4 +59,17 @@ class PaymentsTest extends TestCase
 
         $spy->shouldHaveReceived('createOrder');
     }
+
+    /** @test */
+    public function it_delegates_to_gateway_with_default_merchant()
+    {
+        $product = Product::factory()->create();
+
+        /** @var MercadoPagoGateway|MockInterface $mock */
+        $spy = $this->spy(MercadoPagoGateway::class);
+
+        $this->payments->checkoutForDefaultMerchant('mercado_pago', $product);
+
+        $spy->shouldHaveReceived('createOrder');
+    }
 }

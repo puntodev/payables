@@ -129,7 +129,9 @@ class MercadoPagoGateway implements Gateway
         $order->amount = collect($paymentOrder->items())
             ->reduce(fn($carry, $item) => $carry + $item->quantity() * $item->amount(), 0.0);
         $order->currency = $paymentOrder->items()[0]->currency();
-        $order->merchant()->associate($merchant);
+        if ($merchant instanceof Model) {
+            $order->merchant()->associate($merchant);
+        }
         $order->payable()->associate($payable);
         $order->save();
 
@@ -150,6 +152,16 @@ class MercadoPagoGateway implements Gateway
                 ->make();
         }
 
+        $notificationUrl = !empty($merchant->type()) && !empty($merchant->identifier()) ?
+            URL::route('payments.incoming', [
+                'gateway' => 'mercado_pago',
+                'merchantType' => $merchant->type(),
+                'merchantId' => $merchant->identifier(),
+            ]) :
+            URL::route('payments.incoming.default', [
+                'gateway' => 'mercado_pago',
+            ]);
+
         return $builder
             ->externalId($externalReference)
             ->payerFirstName($order->firstName())
@@ -159,12 +171,13 @@ class MercadoPagoGateway implements Gateway
             ->successBackUrl($order->successBackUrl())
             ->pendingBackUrl($order->pendingBackUrl())
             ->failureBackUrl($order->failureBackUrl())
-            ->notificationUrl(URL::route('payments.incoming', [
-                'gateway' => 'mercado_pago',
-                'merchantType' => $merchant->type(),
-                'merchantId' => $merchant->identifier(),
-            ]))
+            ->notificationUrl($notificationUrl)
             ->binaryMode(true)
             ->make();
+    }
+
+    public function defaultMerchant(): Merchant
+    {
+        return new DefaultMercadoPagoMerchant();
     }
 }
