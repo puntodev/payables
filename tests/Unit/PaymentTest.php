@@ -71,5 +71,4 @@ class PaymentTest extends TestCase
             ->create();
         $this->assertInstanceOf(Order::class, $payment->order);
     }
-
 }
