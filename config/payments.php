@@ -1,6 +1,7 @@
 <?php
 
-use Puntodev\Payables\Gateways\MercadoPagoGateway;
+
+use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 
 return [
 

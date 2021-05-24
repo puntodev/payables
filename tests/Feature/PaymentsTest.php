@@ -7,7 +7,7 @@ namespace Tests\Feature;
 use Mockery\MockInterface;
 use Puntodev\Payables\Exceptions\InvalidGateway;
 use Puntodev\Payables\Facades\Payments as PaymentsFacade;
-use Puntodev\Payables\Gateways\MercadoPagoGateway;
+use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 use Puntodev\Payables\Payments;
 use Tests\Product;
 use Tests\TestCase;

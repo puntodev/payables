@@ -6,7 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Puntodev\MercadoPago\MercadoPago;
-use Puntodev\Payables\Gateways\MercadoPagoGateway;
+use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 
 class PaymentsServiceProvider extends ServiceProvider
 {

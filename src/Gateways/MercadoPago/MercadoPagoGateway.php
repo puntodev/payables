@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Puntodev\Payables\Gateways;
+namespace Puntodev\Payables\Gateways\MercadoPago;
 
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;

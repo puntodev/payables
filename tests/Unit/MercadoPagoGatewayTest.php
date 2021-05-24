@@ -8,7 +8,7 @@ use Mockery\MockInterface;
 use Puntodev\MercadoPago\MercadoPago;
 use Puntodev\MercadoPago\MercadoPagoApi;
 use Puntodev\Payables\Contracts\Payable;
-use Puntodev\Payables\Gateways\MercadoPagoGateway;
+use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 use Puntodev\Payables\Models\Order;
 use RuntimeException;
 use Tests\Product;
