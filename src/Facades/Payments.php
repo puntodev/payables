@@ -10,6 +10,7 @@ use Puntodev\Payables\Payments as PaymentsFacade;
 
 /**
  * @method static GatewayPaymentOrder checkout(string $gateway, PaymentOrder $paymentOrder, Merchant $merchant)
+ * @method static GatewayPaymentOrder checkoutForDefaultMerchant(string $gateway, PaymentOrder $paymentOrder)
  *
  * @see \Puntodev\Payables\Payments
  */
