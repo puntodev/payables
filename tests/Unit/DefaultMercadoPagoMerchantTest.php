@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use Illuminate\Support\Facades\Config;
 use Puntodev\Payables\Gateways\MercadoPago\DefaultMercadoPagoMerchant;
-use RuntimeException;
 use Tests\TestCase;
 
 class DefaultMercadoPagoMerchantTest extends TestCase
@@ -15,20 +14,6 @@ class DefaultMercadoPagoMerchantTest extends TestCase
     {
         parent::setUp();
         $this->merchant = new DefaultMercadoPagoMerchant();
-    }
-
-    /** @test */
-    public function type()
-    {
-        $this->expectException(RuntimeException::class);
-        $this->merchant->type();
-    }
-
-    /** @test */
-    public function identifier()
-    {
-        $this->expectException(RuntimeException::class);
-        $this->merchant->identifier();
     }
 
     /** @test */

@@ -77,7 +77,7 @@ class MercadoPagoGatewayTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'payment_method' => 'mercado_pago',
             'merchant_type' => $user->getMorphClass(),
-            'merchant_id' => $user->identifier(),
+            'merchant_id' => $user->id,
             'payable_type' => $product->getMorphClass(),
             'payable_id' => $product->id,
             'uuid' => $gatewayPaymentOrder->externalId(),

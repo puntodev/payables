@@ -48,8 +48,8 @@ class PaymentsWebhookControllerTest extends TestCase
 
         $this->post(URL::route('payments.incoming', [
             'gateway' => 'mercado_pago',
-            'merchantType' => $merchant->type(),
-            'merchantId' => $merchant->identifier(),
+            'merchantType' => $merchant->getMorphClass(),
+            'merchantId' => $merchant->id,
         ]), [
             'hello' => 'world',
         ])
@@ -57,8 +57,8 @@ class PaymentsWebhookControllerTest extends TestCase
 
         Bus::assertDispatched(StorePayment::class, function (StorePayment $job) use ($merchant) {
             $this->assertEquals('mercado_pago', $job->gateway);
-            $this->assertEquals($merchant->type(), $job->merchant->type());
-            $this->assertEquals($merchant->identifier(), $job->merchant->identifier());
+            $this->assertEquals($merchant->getMorphClass(), $job->merchant->getMorphClass());
+            $this->assertEquals($merchant->id, $job->merchant->id);
             $this->assertEquals([
                 'hello' => 'world',
             ], $job->data);

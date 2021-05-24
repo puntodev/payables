@@ -36,14 +36,4 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
     {
         return "some-client-secret";
     }
-
-    public function identifier(): string
-    {
-        return $this->id;
-    }
-
-    public function type(): string
-    {
-        return $this->getMorphClass();
-    }
 }

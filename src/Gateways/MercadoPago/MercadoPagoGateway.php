@@ -155,8 +155,8 @@ class MercadoPagoGateway implements Gateway
         $notificationUrl = $merchant instanceof Model ?
             URL::route('payments.incoming', [
                 'gateway' => 'mercado_pago',
-                'merchantType' => $merchant->type(),
-                'merchantId' => $merchant->identifier(),
+                'merchantType' => $merchant->getMorphClass(),
+                'merchantId' => $merchant->id,
             ]) :
             URL::route('payments.incoming.default', [
                 'gateway' => 'mercado_pago',
