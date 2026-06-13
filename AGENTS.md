@@ -4,12 +4,12 @@ Guidance for AI coding agents working in this repository.
 
 ## What this is
 
-`puntodev/payables` is a **Laravel package** (PHP `^8.0`, `illuminate/support ^8.0`) that
+`puntodev/payables` is a **Laravel package** (PHP `>=8.4`, `illuminate/support ^12.0`) that
 provides a gateway-agnostic abstraction for charging customers and reconciling payments.
 It ships its own Eloquent models, migrations, webhook routes and a facade.
 
 Today the only implemented gateway is **MercadoPago**, built on top of the
-`puntodev/mercadopago` package (`^2.0.0`).
+`puntodev/mercadopago` package (`^6.0`).
 
 - Namespace: `Puntodev\Payables\` → `src/`
 - Factories namespace: `Puntodev\Payables\Database\Factories\` → `database/factories/`

@@ -28,10 +28,7 @@ class Payment extends Model
     protected $casts = [
         'raw' => 'array',
         'amount' => 'float',
-    ];
-
-    protected $dates = [
-        'paid_on',
+        'paid_on' => 'datetime',
     ];
 
     public function getAmountAttribute($amount)

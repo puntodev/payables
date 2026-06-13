@@ -15,8 +15,8 @@ Currently bundled gateway: **MercadoPago** (via [`puntodev/mercadopago`](https:/
 
 ## Requirements
 
-- PHP `^8.0`
-- Laravel `^8.0`
+- PHP `>=8.4`
+- Laravel `^12.0`
 
 ## Installation
 

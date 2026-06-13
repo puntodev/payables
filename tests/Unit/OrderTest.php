@@ -12,12 +12,13 @@ use Puntodev\Payables\Models\Payment;
 use Tests\Product;
 use Tests\TestCase;
 use Tests\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class OrderTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     function amount_is_factored_by_100()
     {
         $order = Order::factory()->create([
@@ -30,21 +31,21 @@ class OrderTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function payable_relationship_is_morph()
     {
         $payment = Order::factory()->create();
         $this->assertInstanceOf(MorphTo::class, $payment->payable());
     }
 
-    /** @test */
+    #[Test]
     function merchant_relationship_is_morph()
     {
         $payment = Order::factory()->create();
         $this->assertInstanceOf(MorphTo::class, $payment->merchant());
     }
 
-    /** @test */
+    #[Test]
     function can_have_a_merchant()
     {
         $order = Order::factory()
@@ -59,7 +60,7 @@ class OrderTest extends TestCase
         $this->assertTrue($order->is($user->orders->first()));
     }
 
-    /** @test */
+    #[Test]
     function can_have_a_payable()
     {
         $payment = Order::factory()
@@ -74,7 +75,7 @@ class OrderTest extends TestCase
         $this->assertTrue($payment->is($product->orders->first()));
     }
 
-    /** @test */
+    #[Test]
     function is_paid()
     {
         $order = Order::factory()
@@ -85,18 +86,17 @@ class OrderTest extends TestCase
         $this->assertTrue($order->payable->isPaid());
     }
 
-    /** @test */
+    #[Test]
     function is_not_paid()
     {
         $order = Order::factory()
-            /** @test */
             ->has(Payment::factory(['amount' => '50']), 'payments')
             ->create(['amount' => 50]);
 
         $this->assertFalse($order->payable->isPaid());
     }
 
-    /** @test */
+    #[Test]
     function is_refunded()
     {
         /** @var Order $order */
@@ -110,7 +110,7 @@ class OrderTest extends TestCase
         $this->assertFalse($order->payable->isPaid());
     }
 
-    /** @test */
+    #[Test]
     function is_refunded_but_then_paid_again()
     {
         /** @var Order $order */
@@ -125,7 +125,7 @@ class OrderTest extends TestCase
         $this->assertTrue($order->payable->isPaid());
     }
 
-    /** @test */
+    #[Test]
     function is_paid_on()
     {
         $paidOn = Carbon::yesterday();
@@ -138,7 +138,7 @@ class OrderTest extends TestCase
         $this->assertEquals($paidOn, $order->payable->paidOn());
     }
 
-    /** @test */
+    #[Test]
     function is_paid_on_after_refund()
     {
         $today = Carbon::today();

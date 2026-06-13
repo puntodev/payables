@@ -8,10 +8,11 @@ use Puntodev\Payables\Gateways\MercadoPago\MercadoPagoGateway;
 use Puntodev\Payables\Jobs\StorePayment;
 use Tests\TestCase;
 use Tests\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class StorePaymentTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_delegates_payment_storage_to_gateway()
     {
         /** @var MockInterface> $spy */
