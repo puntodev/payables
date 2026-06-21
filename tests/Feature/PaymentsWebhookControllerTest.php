@@ -11,10 +11,12 @@ use Puntodev\Payables\Contracts\Merchant;
 use Puntodev\Payables\Jobs\StorePayment;
 use Tests\TestCase;
 use Tests\User;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class PaymentsWebhookControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_rejects_webhook_calls_for_unknow_or_disabled_gateways()
     {
         Bus::fake();
@@ -29,10 +31,8 @@ class PaymentsWebhookControllerTest extends TestCase
         Bus::assertNotDispatched(StorePayment::class);
     }
 
-    /**
-     * @test
-     * @dataProvider useMorphMap
-     */
+    #[Test]
+    #[DataProvider('useMorphMap')]
     public function it_can_receive_a_webhook_call(bool $useMorphMap)
     {
         Bus::fake();
@@ -67,10 +67,8 @@ class PaymentsWebhookControllerTest extends TestCase
     }
 
 
-    /**
-     * @test
-     * @dataProvider useMorphMap
-     */
+    #[Test]
+    #[DataProvider('useMorphMap')]
     public function it_can_receive_a_webhook_call_for_default_merchant(bool $useMorphMap)
     {
         $this->withoutExceptionHandling();
@@ -92,7 +90,7 @@ class PaymentsWebhookControllerTest extends TestCase
         });
     }
 
-    public function useMorphMap()
+    public static function useMorphMap()
     {
         return [
             'not using morphMap' => [false],

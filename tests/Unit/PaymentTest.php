@@ -10,12 +10,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Puntodev\Payables\Models\Order;
 use Puntodev\Payables\Models\Payment;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class PaymentTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     function amount_is_factored_by_100()
     {
         $payment = Payment::factory()->create([
@@ -28,7 +29,7 @@ class PaymentTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function lookup_by_secondary_key()
     {
         $payment = Payment::factory()->create([
@@ -41,7 +42,7 @@ class PaymentTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function secondary_key_is_unique()
     {
         $this->expectException(QueryException::class);
@@ -55,7 +56,7 @@ class PaymentTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function order_relationship_is_morph()
     {
         $payment = Payment::factory()->create();
@@ -63,7 +64,7 @@ class PaymentTest extends TestCase
         $this->assertInstanceOf(Order::class, $payment->order);
     }
 
-    /** @test */
+    #[Test]
     function must_have_an_order()
     {
         $payment = Payment::factory()

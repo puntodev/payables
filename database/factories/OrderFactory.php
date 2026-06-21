@@ -12,7 +12,7 @@ class OrderFactory extends Factory
 {
     protected $model = Order::class;
 
-    public function definition()
+    public function definition(): array
     {
         $merchant = User::factory()->create();
         $product = Product::factory()->create();

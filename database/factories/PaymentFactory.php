@@ -10,7 +10,7 @@ class PaymentFactory extends Factory
 {
     protected $model = Payment::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'payment_reference' => strval($this->faker->numberBetween()),

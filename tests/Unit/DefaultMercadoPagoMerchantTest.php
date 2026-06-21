@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Illuminate\Support\Facades\Config;
 use Puntodev\Payables\Gateways\MercadoPago\DefaultMercadoPagoMerchant;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class DefaultMercadoPagoMerchantTest extends TestCase
 {
@@ -16,14 +17,14 @@ class DefaultMercadoPagoMerchantTest extends TestCase
         $this->merchant = new DefaultMercadoPagoMerchant();
     }
 
-    /** @test */
+    #[Test]
     public function client_id()
     {
         Config::set('mercadopago.client_id', 'some-client-id');
         $this->assertEquals('some-client-id', $this->merchant->clientId());
     }
 
-    /** @test */
+    #[Test]
     public function client_secret()
     {
         Config::set('mercadopago.client_secret', 'some-client-secret');

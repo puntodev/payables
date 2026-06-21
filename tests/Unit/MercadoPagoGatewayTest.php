@@ -16,6 +16,8 @@ use RuntimeException;
 use Tests\Product;
 use Tests\TestCase;
 use Tests\User;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MercadoPagoGatewayTest extends TestCase
 {
@@ -37,7 +39,7 @@ class MercadoPagoGatewayTest extends TestCase
         $this->gateway = app(MercadoPagoGateway::class);
     }
 
-    public function sandbox()
+    public static function sandbox()
     {
         return [
             'using sandbox' => [true, 'https://sandbox.mercadopago.com.ar/checkout/v1/redirect?pref_id=539968136-5a869e89-04eb-46cc-9949-373e195dc9e0'],
@@ -45,10 +47,8 @@ class MercadoPagoGatewayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider sandbox
-     */
+    #[Test]
+    #[DataProvider('sandbox')]
     public function it_can_create_an_order(bool $usingSandbox, string $expectedRedirectUrl)
     {
         /** @var User $user */
@@ -87,10 +87,8 @@ class MercadoPagoGatewayTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * @dataProvider sandbox
-     */
+    #[Test]
+    #[DataProvider('sandbox')]
     public function it_can_create_an_order_with_default_merchant(bool $usingSandbox, string $expectedRedirectUrl)
     {
         $user = new DefaultMercadoPagoMerchant();
@@ -131,7 +129,7 @@ class MercadoPagoGatewayTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_webhook()
     {
         /** @var User $merchant */
@@ -234,7 +232,7 @@ class MercadoPagoGatewayTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_webhook_insuffient_funds()
     {
         /** @var User $merchant */
@@ -337,7 +335,7 @@ class MercadoPagoGatewayTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_webhook_refunded()
     {
         /** @var User $merchant */
@@ -440,7 +438,7 @@ class MercadoPagoGatewayTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_to_retrieve_order_from_gateway()
     {
         $this->expectException(RuntimeException::class);
@@ -462,7 +460,7 @@ class MercadoPagoGatewayTest extends TestCase
         $this->gateway->processWebhook($user, $data);
     }
 
-    /** @test */
+    #[Test]
     public function it_supports_default_merchant()
     {
         $this->assertInstanceOf(DefaultMercadoPagoMerchant::class, $this->gateway->defaultMerchant(),);

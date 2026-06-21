@@ -12,6 +12,7 @@ use Puntodev\Payables\Payments;
 use Tests\Product;
 use Tests\TestCase;
 use Tests\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class PaymentsTest extends TestCase
 {
@@ -23,7 +24,7 @@ class PaymentsTest extends TestCase
         $this->payments = new Payments();
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_if_unknown_gateway()
     {
         $this->expectException(InvalidGateway::class);
@@ -34,7 +35,7 @@ class PaymentsTest extends TestCase
         $this->payments->checkout('wrong', $product, $user);
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_if_unknown_gateway_using_facade()
     {
         $this->expectException(InvalidGateway::class);
@@ -45,7 +46,7 @@ class PaymentsTest extends TestCase
         PaymentsFacade::checkout('wrong', $product, $user);
     }
 
-    /** @test */
+    #[Test]
     public function it_delegates_to_gateway()
     {
         /** @var User $user */
@@ -60,7 +61,7 @@ class PaymentsTest extends TestCase
         $spy->shouldHaveReceived('createOrder');
     }
 
-    /** @test */
+    #[Test]
     public function it_delegates_to_gateway_with_default_merchant()
     {
         $product = Product::factory()->create();

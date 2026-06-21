@@ -28,10 +28,7 @@ class Order extends Model
 
     protected $casts = [
         'amount' => 'float',
-    ];
-
-    protected $dates = [
-        'paid_on',
+        'paid_on' => 'datetime',
     ];
 
     public function getAmountAttribute($amount)
