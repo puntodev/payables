@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Released entries below are maintained automatically from the GitHub release notes
 (see `.github/workflows/update-changelog.yml`); the `Unreleased` section tracks the
-range of changes on `master` that have not been released yet.
+range of changes on `main` that have not been released yet.
 
 ## [Unreleased]
 
@@ -24,4 +24,4 @@ range of changes on `master` that have not been released yet.
 
 - Modernize the CI workflow and automate changelog updates from GitHub releases (#13).
 
-[Unreleased]: https://github.com/puntodev/payables/commits/master
+[Unreleased]: https://github.com/puntodev/payables/commits/main
