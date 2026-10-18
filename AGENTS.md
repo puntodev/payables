@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository.
 
 ## What this is
 
-`puntodev/payables` is a **Laravel package** (PHP `^8.5`, `illuminate/support ^12.0`) that
+`puntodev/payables` is a **Laravel package** (PHP `^8.5`, `illuminate/support ^13.0`) that
 provides a gateway-agnostic abstraction for charging customers and reconciling payments.
 It ships its own Eloquent models, migrations, webhook routes and a facade.
 
