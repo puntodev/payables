@@ -1,0 +1,22 @@
+version: 2
+
+multi-ecosystem-groups:
+  weekly:
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+
+updates:
+  - package-ecosystem: "composer"
+    directory: "/"
+    patterns: ["*"]
+    multi-ecosystem-group: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    patterns: ["*"]
+    multi-ecosystem-group: "weekly"
