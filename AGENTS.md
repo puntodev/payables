@@ -9,7 +9,7 @@ provides a gateway-agnostic abstraction for charging customers and reconciling p
 It ships its own Eloquent models, migrations, webhook routes and a facade.
 
 Today the only implemented gateway is **MercadoPago**, built on top of the
-`puntodev/mercadopago` package (`^6.0`).
+`puntodev/mercadopago` package (`^8.0`).
 
 - Namespace: `Puntodev\Payables\` → `src/`
 - Factories namespace: `Puntodev\Payables\Database\Factories\` → `database/factories/`
